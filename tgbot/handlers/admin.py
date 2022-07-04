@@ -23,7 +23,11 @@ async def activate(callback: types.CallbackQuery):
   if (callback.from_user.id == admin_id):
     tools.activate_user(user_id)
 
-    await bot.send_message(user_id, 'Доступ предоставлен.\nИспользуйте /get для просмотра сообщений')
+    text = 'Доступ предоставлен.\nИспользуйте /get для просмотра сообщений' + \
+        '\n\nВнимание! Частая смена паролей происходит из-за того, что Яндекс ругается на ' + \
+        'большое кол-во пользователей. Информация о новых паролях приходит через этого бота.' + \
+        '\nМы уже работаем над обходом этой проблемы, так что скоро можно будет жить спокойно.'
+    await bot.send_message(user_id, text)
     await callback.message.answer(callback.data)
   else:
     await callback.answer('Вы не админ')
