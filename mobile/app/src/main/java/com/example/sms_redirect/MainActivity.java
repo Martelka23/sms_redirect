@@ -2,6 +2,8 @@ package com.example.sms_redirect;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -14,11 +16,13 @@ import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
+    final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     public void getMessages(View view) {
         System.out.println("Ok");
-        Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_ASK_PERMISSIONS);
 
+        Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
         if (cursor.moveToFirst()) { // must check the result to prevent exception
             do {
                 String msgData = "";
@@ -33,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
             // empty box, no SMS
             System.out.println("No messages");
         }
-
     }
 
     @Override
